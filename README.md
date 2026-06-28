@@ -220,4 +220,4 @@ Este projeto segue as regras definidas em [`.cursorrules`](.cursorrules):
 
 ## Licença
 
-Projeto privado — © Britago Mineração. Todos os direitos reservados.
+Projeto privado — © Britago. Todos os direitos reservados.
