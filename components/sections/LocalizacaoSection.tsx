@@ -59,7 +59,7 @@ export function LocalizacaoSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Abrir localização no Google Maps"
-                className="absolute bottom-3 right-3 flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-xs font-medium text-[#0A0E1A] shadow-md transition-shadow duration-200 hover:shadow-lg"
+                className="absolute right-3 bottom-3 flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-xs font-medium text-[#0A0E1A] shadow-md transition-shadow duration-200 hover:shadow-lg"
               >
                 <FiMapPin size={13} className="text-[#0F4C9F]" aria-hidden />
                 Abrir no Google Maps

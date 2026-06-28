@@ -25,10 +25,7 @@ const eslintConfig = defineConfig([
       ],
 
       // Sempre usar 'as Type' em vez de <Type> para type assertions
-      "@typescript-eslint/consistent-type-assertions": [
-        "error",
-        { assertionStyle: "as" },
-      ],
+      "@typescript-eslint/consistent-type-assertions": ["error", { assertionStyle: "as" }],
 
       // Usar 'import type' para imports de tipo puro
       "@typescript-eslint/consistent-type-imports": [
