@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat, Roboto } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { baseMetadata } from "@/lib/metadata";
 import "./globals.css";
@@ -55,6 +56,7 @@ export default function RootLayout({
       <body className="min-h-full font-roboto antialiased">
         {children}
         <OrganizationJsonLd />
+        <SpeedInsights />
       </body>
     </html>
   );
