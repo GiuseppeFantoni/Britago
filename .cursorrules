@@ -1,0 +1,617 @@
+# Britago — Cursor Rules
+# Site: britago.com.br | Stack: Next.js 16 · React 19 · Tailwind v4 · TypeScript
+
+## 0. Contexto do Projeto
+
+Empresa de mineração **Britago**. Site institucional/comercial com foco em:
+- Performance máxima (Core Web Vitals verde)
+- SEO técnico completo
+- Código limpo, sem duplicidade, escalável
+
+---
+
+## 1. NEXT.JS — Melhores Práticas
+
+### 1.1 App Router (obrigatório)
+- Usar **App Router** (`app/`) exclusivamente. Nunca usar Pages Router.
+- Todo componente é **Server Component por padrão**. Só adicionar `"use client"` quando estritamente necessário (interatividade, hooks de estado/efeito, APIs de browser).
+- Separar claramente: lógica de dados no Server Component → UI interativa no Client Component filho.
+
+```tsx
+// ✅ Correto — Server Component busca dados, Client Component só recebe props
+// app/sobre/page.tsx (Server)
+import HeroClient from "@/components/sobre/HeroClient";
+export default async function SobrePage() {
+  const data = await fetchData();
+  return <HeroClient data={data} />;
+}
+
+// ❌ Errado — "use client" no page.tsx inteiro sem necessidade
+"use client";
+export default function SobrePage() { /* busca dados aqui */ }
+```
+
+### 1.2 Estrutura de Pastas
+```
+app/
+  (marketing)/          # Route Group sem afetar URL
+    page.tsx            # Home
+    sobre/page.tsx
+    servicos/page.tsx
+    contato/page.tsx
+  layout.tsx            # Root layout com metadata base
+  not-found.tsx
+  error.tsx
+  loading.tsx
+
+components/
+  ui/                   # Componentes genéricos (Button, Card, Badge…)
+  sections/             # Seções de página (HeroSection, ServicesSection…)
+  layout/               # Header, Footer, Navbar
+
+lib/
+  utils.ts              # Funções utilitárias puras
+  constants.ts          # Constantes globais (nome da empresa, telefone, etc.)
+  metadata.ts           # Helpers de metadata/SEO
+
+public/
+  images/               # Imagens estáticas otimizadas
+  fonts/                # Fontes locais (se houver)
+```
+
+### 1.3 Data Fetching
+- Usar `fetch` nativo do Next.js com cache semântico:
+  - `{ cache: "force-cache" }` → dados estáticos (textos, serviços)
+  - `{ next: { revalidate: 3600 } }` → dados semi-dinâmicos
+  - `{ cache: "no-store" }` → dados em tempo real
+- Nunca usar `useEffect` + `fetch` para dados que podem ser buscados no servidor.
+- Preferir `generateStaticParams` para rotas dinâmicas conhecidas.
+
+### 1.4 Loading & Error States
+- Todo `page.tsx` com fetch assíncrono **deve** ter `loading.tsx` irmão.
+- Usar `Suspense` com `fallback` granular — nunca suspender a página inteira.
+- `error.tsx` obrigatório em cada segmento de rota.
+
+### 1.5 Route Handlers
+- API routes em `app/api/[rota]/route.ts`.
+- Sempre tipar `Request` e retornar `NextResponse`.
+- Validar inputs com Zod antes de qualquer processamento.
+
+---
+
+## 2. REACT — Melhores Práticas e Patterns
+
+### 2.1 Componentes
+- **Um componente = uma responsabilidade.** Se tem mais de ~150 linhas, quebrar.
+- Nome em **PascalCase** para componentes, **camelCase** para funções/variáveis.
+- Props tipadas com `interface` (nunca `type` para props de componente).
+- Exportar componentes como `export default` apenas no arquivo principal; demais exports são named.
+
+```tsx
+// ✅
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+  variant?: "primary" | "secondary";
+}
+
+export default function Button({ label, onClick, variant = "primary" }: ButtonProps) {
+  return (
+    <button onClick={onClick} className={buttonVariants[variant]}>
+      {label}
+    </button>
+  );
+}
+```
+
+### 2.2 Anti-Patterns a Evitar
+- ❌ Props drilling > 2 níveis → usar Context ou composição
+- ❌ Lógica de negócio dentro do JSX → extrair para hooks ou funções
+- ❌ `any` no TypeScript → sempre tipar corretamente
+- ❌ Index como `key` em listas dinâmicas → usar ID único
+- ❌ Múltiplos `useState` relacionados → usar `useReducer` ou objeto único
+
+### 2.3 Custom Hooks
+- Extrair lógica reutilizável em `hooks/use[Nome].ts`.
+- Hook deve ser puro: recebe parâmetros, retorna estado/funções, sem side effects implícitos.
+
+```tsx
+// hooks/useContactForm.ts
+export function useContactForm() {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  async function submit(data: ContactFormData) { /* ... */ }
+  return { status, submit };
+}
+```
+
+### 2.4 Composição sobre Herança
+- Preferir composição com `children` e render props em vez de componentes genéricos com muitas props condicionais.
+
+```tsx
+// ✅ Composição
+<Card>
+  <Card.Header>Britago</Card.Header>
+  <Card.Body>Conteúdo</Card.Body>
+</Card>
+
+// ❌ Prop drilling excessivo
+<Card title="Britago" body="Conteúdo" showHeader={true} headerColor="red" />
+```
+
+### 2.5 Memoização — Usar com Critério
+- `useMemo` / `useCallback` apenas quando há custo real de computação ou identidade referencial importa (evitar re-renders em componentes filhos pesados).
+- Não memoizar tudo "por precaução" — isso piora performance e legibilidade.
+- `React.memo` apenas em componentes que recebem mesmas props e renderizam frequentemente.
+
+---
+
+## 3. TAILWIND v4 — Melhores Práticas
+
+### 3.1 Design Tokens — Centralizar no CSS Global
+Definir todas as cores, fontes e espaçamentos da Britago no `app/globals.css`:
+
+```css
+@import "tailwindcss";
+
+@theme {
+  /* Cores Britago */
+  --color-britago-primary: #1a3a5c;    /* Azul escuro corporativo */
+  --color-britago-secondary: #f5a623;  /* Laranja mineral */
+  --color-britago-dark: #0d1f33;
+  --color-britago-light: #f4f6f9;
+  --color-britago-gray: #6b7280;
+
+  /* Tipografia */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Montserrat", sans-serif;
+
+  /* Breakpoints padrão (manter os do Tailwind) */
+}
+```
+
+### 3.2 Classes — Organização e Legibilidade
+Ordenar classes Tailwind nesta sequência (usar plugin Prettier Tailwind):
+1. Layout (display, position, z-index)
+2. Box model (w, h, p, m)
+3. Tipografia (font, text, leading)
+4. Visual (bg, border, shadow, rounded)
+5. Estados (hover:, focus:, dark:)
+6. Responsivo (sm:, md:, lg:)
+
+```tsx
+// ✅ Organizado
+<div className="relative flex flex-col w-full max-w-7xl mx-auto px-4 py-16 text-lg font-semibold text-britago-primary bg-britago-light rounded-2xl shadow-md hover:shadow-lg transition-shadow md:flex-row lg:px-8">
+```
+
+### 3.3 Evitar Duplicidade — Extrair com `cva` ou `cn`
+Instalar `class-variance-authority` + `clsx` + `tailwind-merge`:
+
+```tsx
+// lib/utils.ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+// components/ui/Button.tsx — com variantes
+import { cva } from "class-variance-authority";
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-lg font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2",
+  {
+    variants: {
+      variant: {
+        primary: "bg-britago-primary text-white hover:bg-britago-dark",
+        secondary: "bg-britago-secondary text-white hover:opacity-90",
+        outline: "border-2 border-britago-primary text-britago-primary hover:bg-britago-primary hover:text-white",
+        ghost: "text-britago-primary hover:bg-britago-light",
+      },
+      size: {
+        sm: "px-4 py-2 text-sm",
+        md: "px-6 py-3 text-base",
+        lg: "px-8 py-4 text-lg",
+      },
+    },
+    defaultVariants: { variant: "primary", size: "md" },
+  }
+);
+```
+
+### 3.4 Responsive-First
+- Sempre mobile-first: escrever o estilo base para mobile, depois `sm:`, `md:`, `lg:`, `xl:`.
+- Nunca usar `max-w-*` como breakpoint — usar os prefixos do Tailwind.
+
+### 3.5 Proibido
+- ❌ Styles inline (`style={{}}`) — usar classes Tailwind ou CSS Modules para casos específicos
+- ❌ `!important` via `!` prefix do Tailwind sem justificativa
+- ❌ Classes repetidas no mesmo elemento
+- ❌ Strings de classes geradas dinamicamente (Tailwind não consegue purgá-las):
+  ```tsx
+  // ❌ Errado
+  className={`text-${color}-500`}
+  // ✅ Correto
+  const colorMap = { primary: "text-britago-primary", ... }
+  className={colorMap[color]}
+  ```
+
+---
+
+## 4. SEO — Práticas Obrigatórias
+
+### 4.1 Metadata por Página (App Router)
+
+```tsx
+// lib/metadata.ts — helper base
+import type { Metadata } from "next";
+
+const siteConfig = {
+  name: "Britago",
+  url: "https://britago.com.br",
+  description: "Empresa de mineração com excelência em extração e fornecimento de minerais.",
+  logo: "/images/logo.png",
+};
+
+export function createMetadata({
+  title,
+  description,
+  path = "",
+  image,
+}: {
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+}): Metadata {
+  const url = `${siteConfig.url}${path}`;
+  const ogImage = image ?? `${siteConfig.url}/og-default.jpg`;
+
+  return {
+    title: `${title} | ${siteConfig.name}`,
+    description,
+    metadataBase: new URL(siteConfig.url),
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${title} | ${siteConfig.name}`,
+      description,
+      url,
+      siteName: siteConfig.name,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
+      locale: "pt_BR",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${siteConfig.name}`,
+      description,
+      images: [ogImage],
+    },
+  };
+}
+```
+
+```tsx
+// app/(marketing)/servicos/page.tsx
+import { createMetadata } from "@/lib/metadata";
+
+export const metadata = createMetadata({
+  title: "Serviços de Mineração",
+  description: "Conheça os serviços de extração e fornecimento de minerais da Britago.",
+  path: "/servicos",
+});
+```
+
+### 4.2 Root Layout — Metadata Base + Lang
+
+```tsx
+// app/layout.tsx
+export const metadata: Metadata = {
+  metadataBase: new URL("https://britago.com.br"),
+  title: { default: "Britago | Mineração", template: "%s | Britago" },
+  description: "Empresa de mineração...",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  verification: { google: "GOOGLE_SEARCH_CONSOLE_TOKEN" },
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="pt-BR">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+### 4.3 Sitemap — Geração Automática
+
+```tsx
+// app/sitemap.ts
+import type { MetadataRoute } from "next";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = "https://britago.com.br";
+  const lastModified = new Date();
+
+  const staticRoutes = ["/", "/sobre", "/servicos", "/contato"].map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: path === "/" ? 1 : 0.8,
+  }));
+
+  // Adicionar rotas dinâmicas aqui se houver (produtos, projetos etc.)
+  return [...staticRoutes];
+}
+```
+
+### 4.4 Robots.txt
+
+```tsx
+// app/robots.ts
+import type { MetadataRoute } from "next";
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/api/", "/_next/", "/admin/"],
+    },
+    sitemap: "https://britago.com.br/sitemap.xml",
+    host: "https://britago.com.br",
+  };
+}
+```
+
+### 4.5 Structured Data (JSON-LD)
+
+```tsx
+// components/seo/JsonLd.tsx
+export function OrganizationJsonLd() {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Britago",
+    url: "https://britago.com.br",
+    logo: "https://britago.com.br/images/logo.png",
+    description: "Empresa de mineração...",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "BR",
+      // Preencher com endereço real
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      availableLanguage: "Portuguese",
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+```
+
+Incluir no `app/layout.tsx`:
+```tsx
+import { OrganizationJsonLd } from "@/components/seo/JsonLd";
+// dentro do <body>:
+<OrganizationJsonLd />
+```
+
+### 4.6 Heading Hierarchy — Obrigatório
+- Cada página: **exatamente um `<h1>`** com a keyword principal.
+- Nunca pular níveis: `h1 → h2 → h3`.
+- `<title>` e `<h1>` podem ter textos diferentes (title é para SERP, h1 é para UX).
+
+### 4.7 Checklist SEO por Página
+- [ ] `metadata` exportado com `title`, `description`, `canonical`
+- [ ] Um único `<h1>` com keyword primária
+- [ ] Todas as imagens com `alt` descritivo
+- [ ] Links internos com `href` absoluto ou relativo correto
+- [ ] Sem conteúdo duplicado entre páginas
+
+---
+
+## 5. IMAGENS — Next.js `<Image>` (Obrigatório)
+
+### 5.1 Sempre usar `next/image`
+Nunca usar `<img>` nativo. Sempre `import Image from "next/image"`.
+
+```tsx
+// ✅ Correto
+import Image from "next/image";
+
+<Image
+  src="/images/mineracao-hero.jpg"
+  alt="Operação de mineração da Britago em Minas Gerais"
+  width={1200}
+  height={630}
+  priority          // ← OBRIGATÓRIO para imagens above the fold (LCP)
+  quality={85}
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px"
+/>
+```
+
+### 5.2 `priority` — Regra de Ouro
+- **Toda imagem visível sem scroll (above the fold)** → `priority` obrigatório (impacta LCP).
+- Imagens abaixo da dobra → omitir `priority` (lazy load automático).
+
+### 5.3 `sizes` — Sempre Declarar
+- Informa ao browser qual tamanho esperar em cada breakpoint.
+- Sem `sizes`, o browser assume 100vw — desperdiça banda.
+
+```tsx
+// Imagem em grid 3 colunas a partir de lg:
+sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+
+// Imagem full-width:
+sizes="100vw"
+
+// Imagem com max-w-7xl:
+sizes="(max-width: 1280px) 100vw, 1280px"
+```
+
+### 5.4 Formatos e Qualidade
+- Next.js converte automaticamente para WebP/AVIF — não converter manualmente.
+- `quality={85}` para fotos, `quality={90}` para imagens com texto/logo.
+- Para SVGs: importar diretamente como componente ou via `public/`.
+
+### 5.5 `next.config.ts` — Domínios Externos
+
+```ts
+// next.config.ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      // Adicionar apenas domínios realmente usados
+      // { protocol: "https", hostname: "cdn.britago.com.br" },
+    ],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+  compress: true,
+};
+
+export default nextConfig;
+```
+
+### 5.6 OG Image — Geração Dinâmica
+
+```tsx
+// app/opengraph-image.tsx
+import { ImageResponse } from "next/og";
+
+export const runtime = "edge";
+export const size = { width: 1200, height: 630 };
+
+export default function OgImage() {
+  return new ImageResponse(
+    <div style={{ /* estilo da OG image */ }}>
+      <span>Britago — Mineração</span>
+    </div>,
+    { ...size }
+  );
+}
+```
+
+---
+
+## 6. PERFORMANCE — Core Web Vitals
+
+### 6.1 Fonts — Sem Flash, Sem Layout Shift
+```tsx
+// app/layout.tsx
+import { Inter, Montserrat } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  weight: ["600", "700", "800"],
+});
+
+// No <html>:
+<html lang="pt-BR" className={`${inter.variable} ${montserrat.variable}`}>
+```
+
+### 6.2 Lazy Loading de Componentes Pesados
+```tsx
+import dynamic from "next/dynamic";
+
+const MapSection = dynamic(() => import("@/components/sections/MapSection"), {
+  loading: () => <div className="h-96 animate-pulse bg-britago-light rounded-xl" />,
+  ssr: false, // apenas se o componente usar APIs de browser
+});
+```
+
+### 6.3 Evitar CLS (Cumulative Layout Shift)
+- Todo `<Image>` com `width` e `height` explícitos OU `fill` + container com `position: relative`.
+- Reservar espaço para elementos que carregam assincronamente (skeleton loaders).
+- Não inserir conteúdo acima de conteúdo existente sem user action.
+
+### 6.4 Bundle Size
+- Importar apenas o necessário de libs: `import { motion } from "framer-motion"` não `import * as framer`.
+- Auditar com `@next/bundle-analyzer` antes de deploy.
+- Evitar dependências grandes para tarefas simples (ex: lodash inteiro para um `debounce`).
+
+---
+
+## 7. ACESSIBILIDADE (A11y) — Mínimo Obrigatório
+
+- Todo elemento interativo (`button`, `a`) com texto descritivo ou `aria-label`.
+- Imagens decorativas: `alt=""`.
+- Focar em contraste mínimo 4.5:1 (as cores Britago devem passar WCAG AA).
+- Navegação por teclado funcional em modais, menus e formulários.
+- Usar elementos semânticos: `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`.
+
+---
+
+## 8. TYPESCRIPT — Regras
+
+- `strict: true` no `tsconfig.json`.
+- Nunca usar `any` — se necessário, usar `unknown` e fazer type guard.
+- Tipos de retorno explícitos em funções assíncronas e hooks.
+- Enums → preferir `const` objects com `as const`.
+- Centralizar tipos globais em `types/index.ts`.
+
+---
+
+## 9. CONVENÇÕES DE CÓDIGO
+
+### 9.1 Nomenclatura
+| Tipo | Convenção | Exemplo |
+|------|-----------|---------|
+| Componente | PascalCase | `HeroSection.tsx` |
+| Hook | camelCase com `use` | `useContactForm.ts` |
+| Utilitário | camelCase | `formatPhone.ts` |
+| Constante | UPPER_SNAKE_CASE | `COMPANY_NAME` |
+| CSS class | kebab-case | `hero-section` |
+| Rota/arquivo Next | kebab-case | `sobre-nos/page.tsx` |
+
+### 9.2 Imports — Ordem
+1. React / Next.js
+2. Libs externas
+3. Componentes internos (absolutos `@/`)
+4. Hooks internos
+5. Utilitários/constantes
+6. Tipos
+7. Styles
+
+### 9.3 Proibições Gerais
+- ❌ `console.log` em produção — usar logger ou remover
+- ❌ Secrets/tokens hardcoded — usar `.env.local`
+- ❌ Comentários óbvios — código deve ser autoexplicativo
+- ❌ Arquivos com mais de 200 linhas sem justificativa
+- ❌ Funções com mais de 3 parâmetros — usar objeto de opções
+
+---
+
+## 10. VARIÁVEIS DE AMBIENTE
+
+```bash
+# .env.local (nunca commitar)
+NEXT_PUBLIC_SITE_URL=https://britago.com.br
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+# .env.example (commitar — apenas chaves, sem valores)
+NEXT_PUBLIC_SITE_URL=
+NEXT_PUBLIC_GA_ID=
+```
+
+- Variáveis expostas ao client: prefixo `NEXT_PUBLIC_`.
+- Validar variáveis obrigatórias no startup com Zod em `lib/env.ts`.

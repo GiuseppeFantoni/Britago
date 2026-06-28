@@ -22,8 +22,8 @@ Site institucional da **Britago Mineração**, empresa fornecedora de agregados 
 
 ## Pré-requisitos
 
-- **Node.js ≥ 20.9.0** (Next.js 16 exige esta versão)
-- **npm ≥ 9** ou equivalente
+- **Node.js 22** (versão definida em `.nvmrc` — use `nvm use` para ativar automaticamente)
+- **npm ≥ 10** ou equivalente
 
 ---
 
@@ -34,14 +34,17 @@ Site institucional da **Britago Mineração**, empresa fornecedora de agregados 
 git clone https://github.com/seu-usuario/britago-site.git
 cd britago-site/estudo
 
-# 2. Instale as dependências
+# 2. Ative a versão correta do Node.js (requer nvm)
+nvm use
+
+# 3. Instale as dependências
 npm install
 
-# 3. Configure as variáveis de ambiente
+# 4. Configure as variáveis de ambiente
 cp .env.example .env.local
 # Edite .env.local com os valores reais (ver seção abaixo)
 
-# 4. Inicie o servidor de desenvolvimento
+# 5. Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
