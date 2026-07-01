@@ -68,7 +68,7 @@ export function SustentabilidadeSection() {
                 </cite>
               </blockquote>
               <p className="font-roboto text-base leading-relaxed font-light text-[#6C6F72]">
-                A Estudo Mineracao opera com consciência ambiental em cada etapa da produção. Nossas
+                A Britago opera com consciência ambiental em cada etapa da produção. Nossas
                 ações vão além do cumprimento legal — acreditamos que é possível extrair com
                 responsabilidade e devolver valor ao meio ambiente e à comunidade.
               </p>
