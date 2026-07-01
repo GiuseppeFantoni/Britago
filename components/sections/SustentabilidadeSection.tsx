@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { FiSun, FiShield, FiDroplet, FiUsers } from "react-icons/fi";
+import { FiShield } from "react-icons/fi";
+import { LuSprout, LuTreeDeciduous } from "react-icons/lu";
 
 const INICIATIVAS = [
   {
-    icon: FiSun,
+    icon: LuTreeDeciduous,
     title: "Reflorestamento",
     desc: "Programa ativo de recuperação e plantio de espécies nativas nas áreas degradadas pela extração.",
   },
@@ -17,12 +18,7 @@ const INICIATIVAS = [
     desc: "Operação 100% licenciada pelos órgãos ambientais competentes, com plano de recuperação de área.",
   },
   {
-    icon: FiDroplet,
-    title: "Gestão hídrica",
-    desc: "Reaproveitamento de água no processo produtivo e controle de efluentes conforme legislação ambiental.",
-  },
-  {
-    icon: FiUsers,
+    icon: LuSprout,
     title: "Horta comunitária",
     desc: "Produção de alimentos frescos para colaboradores e comunidade local, fortalecendo laços e bem-estar.",
   },
@@ -97,16 +93,16 @@ export function SustentabilidadeSection() {
           </div>
 
           {/* Rodapé: 4 cards em faixa horizontal */}
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {INICIATIVAS.map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="group flex flex-col gap-3 rounded-xl border border-[#DFE0E1] bg-white p-5 transition-all duration-300 hover:border-[#0F4C9F]/30 hover:shadow-md"
+                className="group flex flex-col gap-3 rounded-xl border border-[#DFE0E1] bg-white p-5 transition-all duration-300 hover:border-[#2E7D32]/30 hover:shadow-md"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#0F4C9F]/10 transition-colors duration-300 group-hover:bg-[#0F4C9F]">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#2E7D32]/15 transition-all duration-300 group-hover:scale-105 group-hover:bg-[#2E7D32]">
                   <Icon
                     size={17}
-                    className="text-[#0F4C9F] transition-colors duration-300 group-hover:text-white"
+                    className="text-[#2E7D32] transition-colors duration-300 group-hover:text-white"
                     aria-hidden
                   />
                 </div>

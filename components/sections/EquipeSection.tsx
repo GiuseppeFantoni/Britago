@@ -11,7 +11,7 @@ export function EquipeSection() {
 
   return (
     <section id="equipe" className="bg-[#F8F9FA] py-16 lg:py-20" aria-labelledby="equipe-heading">
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}

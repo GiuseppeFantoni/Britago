@@ -20,7 +20,7 @@ const HIGHLIGHTS = [
   {
     icon: FiTruck,
     label: "Frota especializada",
-    desc: "Entregas ágeis e seguras em todo o estado.",
+    desc: "Frota com duas carretas, dois bitrucks e dois trucks para entregas ágeis e seguras em todo o estado.",
   },
 ];
 
