@@ -4,7 +4,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen items-end overflow-hidden"
+      className="relative flex min-h-[70vh] items-end overflow-hidden sm:min-h-[80vh] lg:min-h-screen"
       aria-label="Apresentação"
     >
       {/* Background image — local asset */}

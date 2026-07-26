@@ -1,6 +1,7 @@
-import { FiX } from "react-icons/fi";
-import { Sheet, SheetContent, SheetTitle } from "@/components/ui/Sheet";
 import { Button } from "@/components/ui/Button";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/Sheet";
+import Image from "next/image";
+import { FiX } from "react-icons/fi";
 import { NAV_LINKS } from "./constants";
 
 interface HeaderMobileDrawerProps {
@@ -15,13 +16,19 @@ export function HeaderMobileDrawer({ open, onOpenChange, onNavClick }: HeaderMob
       <SheetContent
         side="right"
         showCloseButton={false}
-        className="w-4/5 max-w-xs gap-0 border-l-britago-gray-light bg-white p-0 lg:hidden"
+        className="w-4/5 max-w-67.5 gap-0 border-l-britago-gray-light bg-white p-0 lg:hidden"
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between border-b border-britago-gray-light px-5 py-4">
           <SheetTitle asChild>
-            <span className="font-impact text-lg tracking-widest text-britago-primary uppercase">
-              Britago <span className="text-britago-secondary">Mineração</span>
+            <span className="flex items-center">
+              <Image
+                src="/assets/logo.png"
+                alt="Britago"
+                width={140}
+                height={48}
+                className="h-8 w-auto object-contain"
+              />
             </span>
           </SheetTitle>
           <Button
