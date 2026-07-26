@@ -1,14 +1,15 @@
 "use client";
 
-import { FiCheckCircle, FiSend } from "react-icons/fi";
-import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
+import { FiAlertCircle, FiCheckCircle, FiSend } from "react-icons/fi";
 import { useContatoForm } from "./hooks/useContatoForm";
 
 const BENEFITS = [
-  "Resposta em até 1 dia útil",
   "Orçamento sem compromisso",
+  "Atendimento especializado",
   "Laudo técnico incluso",
+  "Frota própria",
   "Entrega em todo o estado de GO",
 ];
 
@@ -16,7 +17,8 @@ const INPUT_CLASS =
   "w-full px-4 py-3 rounded-lg bg-britago-light border border-britago-gray-light text-britago-dark font-roboto text-sm placeholder-britago-gray focus:outline-none focus:border-britago-primary focus:bg-white focus:ring-2 focus:ring-britago-primary/15 transition-all duration-200";
 
 export function ContatoSection() {
-  const { form, submitted, loading, handleChange, handleSubmit, handleReset } = useContatoForm();
+  const { form, submitted, loading, error, handleChange, handleSubmit, handleReset } =
+    useContatoForm();
 
   return (
     <section
@@ -39,8 +41,8 @@ export function ContatoSection() {
               Solicite seu orçamento
             </h2>
             <p className="mb-8 max-w-md font-roboto text-base leading-relaxed font-light text-britago-gray">
-              Preencha o formulário e nossa equipe comercial entrará em contato em até 1 dia útil
-              com a proposta personalizada para sua obra.
+              Preencha o formulário e nossa equipe comercial entrará em contato com a proposta
+              personalizada para sua obra.
             </p>
 
             <div className="mb-10 space-y-3">
@@ -180,6 +182,16 @@ export function ContatoSection() {
                       className={`${INPUT_CLASS} resize-none`}
                     />
                   </div>
+
+                  {error && (
+                    <div
+                      role="alert"
+                      className="mb-4 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 font-roboto text-sm text-red-700"
+                    >
+                      <FiAlertCircle size={16} className="shrink-0" aria-hidden />
+                      Não foi possível enviar sua mensagem. Tente novamente.
+                    </div>
+                  )}
 
                   <button
                     type="submit"

@@ -1,9 +1,9 @@
-import { FiMail } from "react-icons/fi";
-import { FaHardHat } from "react-icons/fa";
-import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { IconBadge } from "@/components/ui/IconBadge";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { CONTACT } from "@/lib/config/site";
+import { FaHardHat } from "react-icons/fa";
+import { FiMail } from "react-icons/fi";
 
 export function EquipeSection() {
   return (
@@ -28,9 +28,9 @@ export function EquipeSection() {
           </h2>
 
           <p className="mb-4 font-roboto text-base leading-relaxed font-light text-britago-gray">
-            Nossa equipe é composta por geólogos, geofísicos e engenheiros com larga experiência e
-            histórico de atualização permanente. Controle rigoroso de qualidade e relacionamento
-            comercial ético e duradouro.
+            Nossa equipe é formada por profissionais comprometidos, que unem experiência, dedicação
+            e conhecimento técnico para garantir operações seguras, eficientes e produtos de alta
+            qualidade.
           </p>
 
           <p className="mb-10 font-roboto text-base leading-relaxed font-light text-britago-gray">

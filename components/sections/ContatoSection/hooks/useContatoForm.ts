@@ -1,5 +1,6 @@
 "use client";
 
+import { useRequestMutation } from "@/lib/api/useRequest";
 import { useState } from "react";
 import type { FormState } from "../types";
 
@@ -8,14 +9,21 @@ const INITIAL_FORM: FormState = {
   empresa: "",
   telefone: "",
   email: "",
-  produto: "",
   mensagem: "",
 };
+
+interface ContatoResponse {
+  success: boolean;
+}
 
 export function useContatoForm() {
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const mutation = useRequestMutation<ContatoResponse, FormState>({
+    endpoint: "/contato",
+    onSuccess: () => setSubmitted(true),
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -23,19 +31,24 @@ export function useContatoForm() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-    }, 1000);
+    mutation.mutate(form);
   };
 
   const handleReset = () => {
     setSubmitted(false);
+    mutation.reset();
     setForm(INITIAL_FORM);
   };
 
-  return { form, submitted, loading, handleChange, handleSubmit, handleReset };
+  return {
+    form,
+    submitted,
+    loading: mutation.isPending,
+    error: mutation.isError,
+    handleChange,
+    handleSubmit,
+    handleReset,
+  };
 }

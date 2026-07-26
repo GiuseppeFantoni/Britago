@@ -3,6 +3,5 @@ export interface FormState {
   empresa: string;
   telefone: string;
   email: string;
-  produto: string;
   mensagem: string;
 }

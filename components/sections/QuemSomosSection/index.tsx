@@ -21,7 +21,7 @@ export function QuemSomosSection() {
           <div className="relative">
             <div className="relative aspect-square overflow-hidden rounded-2xl shadow-2xl">
               <Image
-                src="/assets/history.jpeg"
+                src="/assets/history.webp"
                 alt="Pedreira Britago — história e operação"
                 fill
                 className="object-cover"

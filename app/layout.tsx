@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { baseMetadata } from "@/lib/seo/metadata";
+import { QueryProvider } from "@/lib/api/QueryProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -55,7 +56,7 @@ export default function RootLayout({
       className={`h-full ${inter.variable} ${montserrat.variable} ${roboto.variable}`}
     >
       <body className="min-h-full font-roboto antialiased">
-        {children}
+        <QueryProvider>{children}</QueryProvider>
         <OrganizationJsonLd />
         <Analytics />
         <SpeedInsights />

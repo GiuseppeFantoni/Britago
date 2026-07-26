@@ -35,7 +35,7 @@ export function LocalizacaoSection() {
                 src={CONTACT.mapsEmbed}
                 width="100%"
                 height="100%"
-                style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
+                style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -83,37 +83,22 @@ export function LocalizacaoSection() {
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-britago-primary/8">
                     <FiPhone size={15} className="text-britago-primary" aria-hidden />
                   </div>
-                  <div className="grid flex-1 grid-cols-2 gap-x-6 gap-y-0">
-                    <div>
-                      <p className="mb-1 font-roboto text-sm font-semibold text-britago-dark">
-                        Comercial
-                      </p>
-                      <div className="flex flex-col gap-0.5">
-                        {CONTACT.phones.commercial.map((phone) => (
-                          <a
-                            key={phone.wa}
-                            href={`https://wa.me/${phone.wa}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-roboto text-sm text-britago-gray transition-colors duration-200 hover:text-britago-primary"
-                          >
-                            {phone.display}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <p className="mb-1 font-roboto text-sm font-semibold text-britago-dark">
-                        Administrativo
-                      </p>
-                      <a
-                        href={`https://wa.me/${CONTACT.phones.administrative.wa}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-roboto text-sm text-britago-gray transition-colors duration-200 hover:text-britago-primary"
-                      >
-                        {CONTACT.phones.administrative.display}
-                      </a>
+                  <div className="flex-1">
+                    <p className="mb-1 font-roboto text-sm font-semibold text-britago-dark">
+                      Comercial
+                    </p>
+                    <div className="flex flex-col gap-0.5">
+                      {CONTACT.phones.commercial.map((phone) => (
+                        <a
+                          key={phone.wa}
+                          href={`https://wa.me/${phone.wa}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-roboto text-sm text-britago-gray transition-colors duration-200 hover:text-britago-primary"
+                        >
+                          {phone.display}
+                        </a>
+                      ))}
                     </div>
                   </div>
                 </div>

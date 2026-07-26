@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#0A0E1A] px-4">
+    <main className="flex min-h-screen items-center justify-center bg-britago-dark px-4">
       <div className="text-center">
-        <p className="mb-4 font-impact text-sm tracking-widest text-[#C4922A] uppercase">
+        <p className="mb-4 font-impact text-sm tracking-widest text-britago-secondary uppercase">
           Erro 404
         </p>
         <h1
@@ -18,7 +18,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-xl bg-[#0F4C9F] px-8 py-4 font-impact text-sm tracking-widest text-white uppercase transition-colors duration-200 hover:bg-[#0A3575]"
+          className="inline-flex items-center gap-2 rounded-xl bg-britago-primary px-8 py-4 font-impact text-sm tracking-widest text-white uppercase transition-colors duration-200 hover:bg-britago-primary-dark"
         >
           Voltar para o início
         </Link>

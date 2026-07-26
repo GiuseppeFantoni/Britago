@@ -3,14 +3,17 @@ import type { NextConfig } from "next";
 const CSP = [
   "default-src 'self'",
   // Next.js precisa de 'unsafe-inline' e 'unsafe-eval' para hydration
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com data:",
+  // Vercel Analytics/Speed Insights carregam script de va.vercel-scripts.com
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
+  // next/font/google self-hosta os arquivos em build-time — nao precisa do CDN do Google em runtime
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self' data:",
   // Imagens locais + data URIs para Next.js Image
   "img-src 'self' data: blob:",
   // Google Maps (mapa de localização)
   "frame-src https://maps.google.com https://www.google.com",
-  "connect-src 'self'",
+  // Beacons de Vercel Analytics/Speed Insights
+  "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
   "media-src 'none'",
   "object-src 'none'",
   "base-uri 'self'",
@@ -72,13 +75,6 @@ const nextConfig: NextConfig = {
 
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/**",
-      },
-    ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 14400,

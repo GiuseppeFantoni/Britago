@@ -76,19 +76,6 @@ export function Footer() {
                   ))}
                 </div>
               </div>
-              <div>
-                <p className="mb-1 font-roboto text-xs tracking-wider text-white/40 uppercase">
-                  Administrativo
-                </p>
-                <a
-                  href={`https://wa.me/${CONTACT.phones.administrative.wa}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-roboto text-sm text-white/60 transition-colors duration-200 hover:text-white"
-                >
-                  {CONTACT.phones.administrative.display}
-                </a>
-              </div>
             </div>
           </div>
 

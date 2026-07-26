@@ -11,7 +11,6 @@ export const CONTACT = {
       { display: "(62) 99695-3859", wa: "5562996953859" },
       { display: "(62) 99990-0876", wa: "5562999900876" },
     ],
-    administrative: { display: "(62) 99679-2640", wa: "5562996792640" },
   },
   emails: {
     commercial: "comercial@britago.com.br",
@@ -30,7 +29,7 @@ export const CONTACT = {
     { day: "Sábado – Domingo", hours: "Fechado" },
   ],
   mapsEmbed:
-    "https://maps.google.com/maps?q=Rodovia+GO-060,+Km+34.9,+Santa+B%C3%A1rbara+de+Goi%C3%A1s+-+GO,+75398-000&t=&z=12&ie=UTF8&iwloc=&output=embed",
+    "https://maps.google.com/maps?q=Rodovia+GO-060,+Km+34.9,+Santa+B%C3%A1rbara+de+Goi%C3%A1s+-+GO,+75398-000&z=12&output=embed",
 } as const;
 
 export const FOUNDING_YEAR = 1999 as const;

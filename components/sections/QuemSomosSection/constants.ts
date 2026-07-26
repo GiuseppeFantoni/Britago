@@ -1,4 +1,4 @@
-import { FiAward, FiTruck, FiCheckCircle } from "react-icons/fi";
+import { FiAward, FiCheckCircle, FiTruck } from "react-icons/fi";
 
 export const HIGHLIGHTS = [
   {
@@ -27,7 +27,7 @@ export const MVV = [
   {
     label: "Visão",
     title: "Referência regional",
-    text: "Ser a pedreira de referência em Goiás, com laudo técnico completo disponível e certificação geológica da nossa jazida.",
+    text: "Ser referência regional em mineração de agregados, reconhecida pela excelência operacional, segurança e confiabilidade nas entregas.",
   },
   {
     label: "Valores",
