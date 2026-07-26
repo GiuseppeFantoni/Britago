@@ -5,20 +5,17 @@
   --color-britago-primary: #0f4c9f;
   --color-britago-primary-dark: #0a3575;
   --color-britago-secondary: #c4922a;
+  --color-britago-secondary-dark: #b07e22;
   --color-britago-dark: #0a0e1a;
   --color-britago-dark-mid: #1a2236;
   --color-britago-light: #f8f9fa;
   --color-britago-gray: #6c6f72;
   --color-britago-gray-light: #dfe0e1;
 
-  /* Aliases para compatibilidade com componentes existentes */
-  --color-brand-blue: #0f4c9f;
-  --color-brand-blue-dark: #0a3575;
-  --color-brand-bg-dark: #0a0e1a;
-  --color-brand-dark-mid: #1a2236;
-  --color-brand-gray: #6c6f72;
-  --color-brand-gray-light: #dfe0e1;
-  --color-brand-gold: #c4922a;
+  /* Cores de apoio */
+  --color-success: #2e7d32;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
 
   /* Tipografia */
   --font-sans: var(--font-inter-next, "Inter"), system-ui, sans-serif;

@@ -33,6 +33,13 @@ const eslintConfig = defineConfig([
         { prefer: "type-imports", fixStyle: "inline-type-imports" },
       ],
 
+      // Proibido '!' non-null assertion — usar narrowing ou optional chaining
+      "@typescript-eslint/no-non-null-assertion": "error",
+
+      // ─── React Hooks ──────────────────────────────────────────────────────
+      // Dependências de useEffect/useMemo/useCallback devem estar completas
+      "react-hooks/exhaustive-deps": "error",
+
       // ─── React ────────────────────────────────────────────────────────────
       // Componentes devem ser function declarations (não class components)
       "react/function-component-definition": [

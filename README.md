@@ -73,64 +73,67 @@ npm run dev          # Servidor de desenvolvimento (http://localhost:3000)
 npm run build        # Build de produção
 npm run start        # Serve o build de produção localmente
 npm run lint         # Verifica erros de ESLint
+npm run lint:fix     # Corrige erros de ESLint automaticamente
 npm run format       # Formata todos os arquivos com Prettier
 npm run format:check # Verifica formatação sem alterar arquivos (útil em CI)
+npm run type-check   # Verifica tipos com tsc --noEmit
+npm run validate     # type-check + lint + format:check (rodar antes de commitar)
 ```
 
 ---
 
 ## Estrutura do projeto
 
+Cada componente vive na própria pasta, com conteúdo separado por tipo de arquivo (`index.tsx`, `types.ts`, `constants.ts`, `hooks/`) — ver [`CLAUDE.md`](CLAUDE.md) para a convenção completa.
+
 ```
-estudo/
+britago/
 ├── app/
 │   ├── layout.tsx          # Root layout: metadata base, fontes, JSON-LD
-│   ├── page.tsx            # Home (única rota — site one-page)
-│   ├── globals.css         # Design tokens Tailwind v4 + estilos globais
-│   ├── sitemap.ts          # Gera /sitemap.xml automaticamente
-│   ├── robots.ts           # Gera /robots.txt automaticamente
-│   ├── not-found.tsx       # Página 404
-│   ├── error.tsx           # Boundary de erro global
-│   └── loading.tsx         # Skeleton de carregamento global
+│   ├── page.tsx             # Home (única rota — site one-page)
+│   ├── globals.css           # Design tokens Tailwind v4 + estilos globais
+│   ├── sitemap.ts              # Gera /sitemap.xml automaticamente
+│   ├── robots.ts                 # Gera /robots.txt automaticamente
+│   ├── not-found.tsx               # Página 404
+│   ├── error.tsx                     # Boundary de erro global
+│   └── loading.tsx                     # Skeleton de carregamento global
 │
 ├── components/
 │   ├── layout/
-│   │   ├── Header.tsx      # Navbar fixa com scroll e menu mobile
-│   │   └── Footer.tsx      # Rodapé com contatos e redes sociais
-│   ├── sections/           # Seções da página (na ordem em que aparecem)
-│   │   ├── HeroSection.tsx
-│   │   ├── QuemSomosSection.tsx
-│   │   ├── ProdutosSection.tsx
-│   │   ├── DiferenciaisSection.tsx
-│   │   ├── LaudoSection.tsx
-│   │   ├── SustentabilidadeSection.tsx
-│   │   ├── CulturaSection.tsx
-│   │   ├── CulturaSectionMobile.tsx
-│   │   ├── EquipeSection.tsx
-│   │   ├── LocalizacaoSection.tsx
-│   │   └── ContatoSection.tsx
+│   │   ├── Header/          # Navbar fixa — hooks de scroll e drawer mobile isolados
+│   │   └── Footer/           # Rodapé com contatos e redes sociais
+│   ├── sections/               # Seções da página (na ordem em que aparecem)
+│   │   ├── HeroSection/
+│   │   ├── QuemSomosSection/
+│   │   ├── ProdutosSection/
+│   │   ├── SustentabilidadeSection/
+│   │   ├── Cultura/            # Versões desktop (hover) e mobile (stagger) + dados compartilhados
+│   │   ├── EquipeSection/
+│   │   ├── LaudoSection/
+│   │   ├── LocalizacaoSection/
+│   │   └── ContatoSection/     # Hook useContatoForm isolado em hooks/
 │   ├── seo/
-│   │   └── JsonLd.tsx      # Componente OrganizationJsonLd (schema.org)
-│   └── ui/
-│       └── WhatsAppButton.tsx
+│   │   └── JsonLd/             # Componente OrganizationJsonLd (schema.org)
+│   └── ui/                     # Primitivos reutilizáveis
+│       ├── SectionEyebrow/     # Linha dourada + label uppercase
+│       ├── RevealOnScroll/     # Wrapper de fade-in on scroll (framer-motion)
+│       ├── IconBadge/          # Ícone em box arredondado com variantes de cor
+│       └── WhatsAppButton/
 │
 ├── lib/
-│   ├── constants.ts        # Dados da empresa, contatos, CULTURA_CARDS
-│   ├── metadata.ts         # Helper createMetadata() para SEO por página
-│   └── utils.ts            # Função cn() para merge de classes Tailwind
-│
-├── types/
-│   └── index.ts            # Tipos TypeScript globais do projeto
+│   ├── config/site.ts          # Dados da empresa, contatos (CONTACT, COMPANY_NAME...)
+│   ├── seo/metadata.ts         # Helper createMetadata() + baseMetadata para SEO
+│   └── utils.ts                # Função cn() para merge de classes Tailwind
 │
 ├── public/
-│   └── assets/             # Imagens estáticas (hero, produtos, cultura…)
+│   └── assets/                 # Imagens estáticas (hero, produtos, cultura…)
 │
-├── .env.example            # Template de variáveis de ambiente
-├── .prettierrc             # Config do Prettier (+ plugin Tailwind)
+├── .env.example                # Template de variáveis de ambiente
+├── .prettierrc                 # Config do Prettier (+ plugin Tailwind)
 ├── .prettierignore
-├── eslint.config.mjs       # ESLint com Next.js + Prettier
-├── next.config.ts          # Config do Next.js (imagens, compressão)
-└── tsconfig.json           # TypeScript strict mode
+├── eslint.config.mjs           # ESLint com Next.js + Prettier
+├── next.config.ts              # Config do Next.js (imagens, compressão)
+└── tsconfig.json                # TypeScript strict mode
 ```
 
 ---

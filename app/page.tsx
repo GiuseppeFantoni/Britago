@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { createMetadata } from "@/lib/metadata";
+import { createMetadata } from "@/lib/seo/metadata";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
@@ -8,7 +8,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { QuemSomosSection } from "@/components/sections/QuemSomosSection";
 import { ProdutosSection } from "@/components/sections/ProdutosSection";
 import { SustentabilidadeSection } from "@/components/sections/SustentabilidadeSection";
-import { CulturaSection } from "@/components/sections/CulturaSection";
+import { CulturaSection } from "@/components/sections/Cultura";
 import { EquipeSection } from "@/components/sections/EquipeSection";
 import { LocalizacaoSection } from "@/components/sections/LocalizacaoSection";
 import { ContatoSection } from "@/components/sections/ContatoSection";

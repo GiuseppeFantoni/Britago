@@ -3,7 +3,7 @@ import { Inter, Montserrat, Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
-import { baseMetadata } from "@/lib/metadata";
+import { baseMetadata } from "@/lib/seo/metadata";
 import "./globals.css";
 
 const inter = Inter({
