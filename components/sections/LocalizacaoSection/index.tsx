@@ -138,12 +138,15 @@ export function LocalizacaoSection() {
                     Horário de atendimento
                   </p>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                   {CONTACT.hours.map(({ day, hours }) => (
-                    <div key={day} className="rounded-lg bg-white/10 px-2 py-2 text-center">
-                      <p className="mb-0.5 font-roboto text-xs text-white/60">{day}</p>
+                    <div
+                      key={day}
+                      className="flex items-center justify-between gap-2 rounded-lg bg-white/10 px-3 py-2 text-left sm:flex-col sm:items-center sm:justify-center sm:text-center"
+                    >
+                      <p className="font-roboto text-xs text-white/60 sm:mb-0.5">{day}</p>
                       <p
-                        className={`font-roboto text-xs font-semibold ${hours === "Fechado" ? "text-red-300" : "text-white"}`}
+                        className={`shrink-0 font-roboto text-xs font-semibold ${hours === "Fechado" ? "text-red-300" : "text-white"}`}
                       >
                         {hours}
                       </p>

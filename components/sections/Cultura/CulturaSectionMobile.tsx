@@ -71,9 +71,6 @@ export function CulturaSectionMobile() {
                   {card.desc}
                 </p>
               </div>
-
-              {/* Linha dourada fixa */}
-              <div className="h-0.5 bg-britago-secondary" />
             </motion.div>
           ))}
         </div>
