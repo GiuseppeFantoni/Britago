@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
@@ -16,12 +17,9 @@ export default function NotFound() {
         <p className="mx-auto mb-10 max-w-md font-roboto text-base leading-relaxed font-light text-white/60">
           A página que você está procurando não existe ou foi movida.
         </p>
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 rounded-xl bg-britago-primary px-8 py-4 font-impact text-sm tracking-widest text-white uppercase transition-colors duration-200 hover:bg-britago-primary-dark"
-        >
-          Voltar para o início
-        </Link>
+        <Button asChild className="gap-2 px-8 py-4">
+          <Link href="/">Voltar para o início</Link>
+        </Button>
       </div>
     </main>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Button } from "@/components/ui/Button";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -28,12 +29,9 @@ export default function GlobalError({ error, reset }: ErrorProps) {
         <p className="mx-auto mb-10 max-w-md font-roboto text-base leading-relaxed font-light text-white/60">
           Ocorreu um erro ao carregar esta página. Tente novamente.
         </p>
-        <button
-          onClick={reset}
-          className="inline-flex items-center gap-2 rounded-xl bg-britago-primary px-8 py-4 font-impact text-sm tracking-widest text-white uppercase transition-colors duration-200 hover:bg-britago-primary-dark"
-        >
+        <Button onClick={reset} className="gap-2 px-8 py-4">
           Tentar novamente
-        </button>
+        </Button>
       </div>
     </main>
   );

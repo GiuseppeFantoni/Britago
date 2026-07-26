@@ -1,6 +1,8 @@
 import { FiDownload } from "react-icons/fi";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 import { CARDS } from "./constants";
 
 export function LaudoSection() {
@@ -44,9 +46,9 @@ export function LaudoSection() {
           {/* Cards */}
           <div className="mb-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
             {CARDS.map(({ icon: Icon, title, desc }) => (
-              <div
+              <Card
                 key={title}
-                className="rounded-2xl border border-white/15 bg-white/10 p-6 transition-colors duration-300 hover:bg-white/15"
+                className="gap-0 rounded-2xl border-white/15 bg-white/10 p-6 transition-colors duration-300 hover:bg-white/15"
               >
                 <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-britago-secondary/20">
                   <Icon size={22} className="text-britago-secondary" aria-hidden />
@@ -55,24 +57,26 @@ export function LaudoSection() {
                 <p className="font-roboto text-sm leading-relaxed font-light text-white/60">
                   {desc}
                 </p>
-              </div>
+              </Card>
             ))}
           </div>
 
           {/* CTA */}
           <div className="text-center">
-            <a
-              href="#"
-              aria-label="Baixar laudo técnico (PDF fictício)"
-              className="group inline-flex items-center gap-3 rounded bg-britago-secondary px-8 py-4 font-roboto text-base font-medium text-white transition-all duration-300 hover:bg-britago-secondary-dark hover:shadow-lg hover:shadow-britago-secondary/30"
+            <Button
+              asChild
+              variant="secondary"
+              className="group gap-3 px-8 py-4 text-base hover:shadow-lg hover:shadow-britago-secondary/30"
             >
-              <FiDownload
-                size={18}
-                className="transition-transform duration-200 group-hover:-translate-y-0.5"
-                aria-hidden
-              />
-              Baixar Laudo Técnico
-            </a>
+              <a href="#" aria-label="Baixar laudo técnico (PDF fictício)">
+                <FiDownload
+                  size={18}
+                  className="transition-transform duration-200 group-hover:-translate-y-0.5"
+                  aria-hidden
+                />
+                Baixar Laudo Técnico
+              </a>
+            </Button>
             <p className="mt-3 font-roboto text-xs text-white/40">
               Arquivo PDF — Especificações técnicas completas
             </p>

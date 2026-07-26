@@ -1,6 +1,8 @@
 import { IconBadge } from "@/components/ui/IconBadge";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 import { CONTACT } from "@/lib/config/site";
 import { FaHardHat } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
@@ -42,7 +44,7 @@ export function EquipeSection() {
           </p>
 
           {/* Career banner */}
-          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-britago-gray-light bg-white px-6 py-5 shadow-sm sm:flex-row">
+          <Card className="flex-col items-center justify-between gap-4 rounded-2xl border-britago-gray-light bg-white px-6 py-5 shadow-sm sm:flex-row">
             <div className="flex items-start gap-4">
               <IconBadge icon={FaHardHat} size="lg" />
               <div>
@@ -54,14 +56,13 @@ export function EquipeSection() {
                 </p>
               </div>
             </div>
-            <a
-              href={`mailto:${CONTACT.emails.hr}`}
-              className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-britago-primary px-7 py-3.5 font-impact text-sm tracking-widest whitespace-nowrap text-white uppercase transition-colors duration-200 hover:bg-britago-primary-dark"
-            >
-              <FiMail size={15} aria-hidden />
-              Enviar Curriculo
-            </a>
-          </div>
+            <Button asChild className="shrink-0 gap-2 px-7 py-3.5 whitespace-nowrap">
+              <a href={`mailto:${CONTACT.emails.hr}`}>
+                <FiMail size={15} aria-hidden />
+                Enviar Curriculo
+              </a>
+            </Button>
+          </Card>
         </RevealOnScroll>
       </div>
     </section>

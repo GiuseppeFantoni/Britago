@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 import { PRODUCTS } from "./constants";
 
 export function ProdutosSection() {
@@ -28,9 +30,9 @@ export function ProdutosSection() {
         {/* Products grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {PRODUCTS.map((product) => (
-            <div
+            <Card
               key={product.id}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-britago-gray-light bg-white transition-all duration-300 hover:shadow-xl hover:shadow-black/20"
+              className="group gap-0 overflow-hidden rounded-2xl border-britago-gray-light bg-white py-0 transition-all duration-300 hover:shadow-xl hover:shadow-black/20"
             >
               <div className="relative h-44 overflow-hidden">
                 <Image
@@ -49,13 +51,13 @@ export function ProdutosSection() {
                   {product.desc}
                 </p>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
 
         {/* Laudo técnico CTA — banner estilo PDF */}
         <div className="mt-12">
-          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-white px-6 py-5 shadow-sm sm:flex-row">
+          <Card className="flex-col items-center justify-between gap-4 rounded-2xl bg-white px-6 py-5 shadow-sm sm:flex-row">
             <div>
               <p className="font-roboto text-base font-bold text-britago-dark">
                 Documentação técnica disponível para sua obra.
@@ -64,16 +66,17 @@ export function ProdutosSection() {
                 Acesse o laudo com especificações técnicas
               </p>
             </div>
-            <a
-              href="laudo.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Baixar laudo técnico (PDF fictício)"
-              className="shrink-0 rounded-xl bg-britago-primary px-7 py-3.5 font-impact text-sm tracking-widest whitespace-nowrap text-white uppercase transition-colors duration-200 hover:bg-britago-primary-dark"
-            >
-              Baixar Laudo Tecnico
-            </a>
-          </div>
+            <Button asChild className="shrink-0 px-7 py-3.5 whitespace-nowrap">
+              <a
+                href="laudo.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Baixar laudo técnico (PDF fictício)"
+              >
+                Baixar Laudo Tecnico
+              </a>
+            </Button>
+          </Card>
         </div>
       </div>
     </section>

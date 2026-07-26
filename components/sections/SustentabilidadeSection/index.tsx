@@ -1,6 +1,7 @@
 import { IconBadge } from "@/components/ui/IconBadge";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
+import { Card } from "@/components/ui/Card";
 import Image from "next/image";
 import { INICIATIVAS } from "./constants";
 
@@ -64,9 +65,9 @@ export function SustentabilidadeSection() {
           {/* Rodapé: cards em faixa horizontal */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {INICIATIVAS.map(({ icon, title, desc }) => (
-              <div
+              <Card
                 key={title}
-                className="group flex flex-col gap-3 rounded-xl border border-britago-gray-light bg-white p-5 transition-all duration-300 hover:border-success/30 hover:shadow-md"
+                className="group gap-3 rounded-xl border-britago-gray-light bg-white p-5 transition-all duration-300 hover:border-success/30 hover:shadow-md"
               >
                 <IconBadge icon={icon} variant="success" size="sm" groupHover />
                 <div>
@@ -77,7 +78,7 @@ export function SustentabilidadeSection() {
                     {desc}
                   </p>
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </RevealOnScroll>

@@ -68,6 +68,16 @@ Cores da marca estão definidas em `app/globals.css` via `@theme inline` como `-
 
 Server Component é o padrão — só adicionar `"use client"` quando o componente precisa de estado, efeitos, handlers de evento ou APIs de browser (a maioria das seções desta home usa `framer-motion` + `useInView`, por isso são client components). Ver `.cursorrules` seção 1.1 para exemplos.
 
+## Componentes de UI — usar shadcn/ui
+
+O projeto usa [shadcn/ui](https://ui.shadcn.com) como base para todo componente de UI genérico (botão, input, card, modal, badge, alert, etc.). `components.json` já está configurado (aliases apontando para `@/components`, `@/lib/utils`, `@/components/ui`).
+
+- Para adicionar um novo primitivo, rodar `npx shadcn add <componente>` — isso gera o arquivo em `components/ui/<componente>.tsx`. Em seguida, mover o arquivo gerado para dentro de uma pasta seguindo a convenção do projeto (`components/ui/ComponentName/index.tsx`, ver seção "Convenção de pasta por componente" acima).
+- Customizar o componente gerado para usar os tokens de marca já existentes em `app/globals.css` (`--color-britago-*`, `--color-destructive*`, fontes `font-impact`/`font-roboto`/`font-display`/`font-sans`) em vez das cores neutras padrão do shadcn — nunca deixar um componente novo com a paleta cinza/zinc default.
+- Não rodar `npx shadcn init` novamente — ele sobrescreve o bloco `@theme inline` em `app/globals.css` e apagaria os tokens de marca. Os tokens semânticos que os componentes shadcn esperam (`--color-primary`, `--color-border`, `--color-card` etc.) já foram mapeados manualmente para as cores Britago nesse arquivo.
+- `iconLibrary` está configurado como `react-icons` (não `lucide-react`) para manter consistência com o resto do projeto — se um componente gerado vier com import de `lucide-react`, trocar pelo ícone equivalente em `react-icons`.
+- Não escrever primitivos de UI do zero (botão, input, card...) quando o shadcn já resolve — evita duplicar lógica e reinventar componentes com estado/acessibilidade complexos (ex.: `Sheet` para drawers/modais já traz focus-trap, Esc para fechar e scroll-lock de graça via Radix).
+
 ## Skill de boas práticas React/Next.js
 
 Este projeto tem a skill `react-best-practices` instalada em `.claude/skills/react-best-practices/` (70 regras de performance da Vercel Engineering, cobrindo waterfalls, bundle size, re-renders, data fetching server/client). Aplicar automaticamente ao escrever ou revisar componentes React/Next.js — ver `SKILL.md` para a lista priorizada e `REFERENCE.md` para exemplos completos de código.

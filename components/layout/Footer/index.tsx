@@ -1,5 +1,6 @@
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FiMail, FiPhone, FiMapPin, FiClock } from "react-icons/fi";
+import { Button } from "@/components/ui/Button";
 import { CONTACT } from "@/lib/config/site";
 
 const SOCIAL = [
@@ -34,14 +35,17 @@ export function Footer() {
               </h3>
               <div className="flex items-center gap-2">
                 {SOCIAL.map(({ icon: Icon, label, href }) => (
-                  <a
+                  <Button
                     key={label}
-                    href={href}
-                    aria-label={label}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 text-white/50 transition-all duration-200 hover:border-white/50 hover:bg-white/10 hover:text-white"
+                    asChild
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-lg border border-white/20 text-white/50 hover:border-white/50 hover:bg-white/10 hover:text-white"
                   >
-                    <Icon size={15} aria-hidden />
-                  </a>
+                    <a href={href} aria-label={label}>
+                      <Icon size={15} aria-hidden />
+                    </a>
+                  </Button>
                 ))}
               </div>
             </div>
