@@ -1,11 +1,7 @@
-import { IconBadge } from "@/components/ui/IconBadge";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
-import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { CONTACT } from "@/lib/config/site";
-import { FaHardHat } from "react-icons/fa";
-import { FiMail } from "react-icons/fi";
+import { CarreirasInfo } from "./CarreirasInfo";
+import { CurriculoForm } from "./CurriculoForm";
 
 export function EquipeSection() {
   return (
@@ -19,51 +15,45 @@ export function EquipeSection() {
           <div className="mb-5">
             <SectionEyebrow>Nosso time</SectionEyebrow>
           </div>
-
-          <h2
-            id="equipe-heading"
-            className="mb-6 font-impact leading-tight text-britago-primary uppercase"
-            style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-          >
-            Profissionais que fazem
-            <br />a diferença
-          </h2>
-
-          <p className="mb-4 font-roboto text-base leading-relaxed font-light text-britago-gray">
-            Nossa equipe é formada por profissionais comprometidos, que unem experiência, dedicação
-            e conhecimento técnico para garantir operações seguras, eficientes e produtos de alta
-            qualidade.
-          </p>
-
-          <p className="mb-10 font-roboto text-base leading-relaxed font-light text-britago-gray">
-            Nossos valores e o atendimento especializado — do pequeno consumidor até empresas de
-            grande porte — são o nosso grande diferencial.{" "}
-            <span className="font-medium text-britago-dark">
-              Quem conhece, confia e se torna parceiro.
-            </span>
-          </p>
-
-          {/* Career banner */}
-          <Card className="flex-col items-center justify-between gap-4 rounded-2xl border-britago-gray-light bg-white px-6 py-5 shadow-sm sm:flex-row">
-            <div className="flex items-start gap-4">
-              <IconBadge icon={FaHardHat} size="lg" />
-              <div>
-                <p className="font-roboto text-base font-bold text-britago-dark">
-                  Quer fazer parte do time?
-                </p>
-                <p className="mt-0.5 font-roboto text-sm text-britago-gray">
-                  Mande seu currículo — analisamos perfis de todas as áreas.
-                </p>
-              </div>
-            </div>
-            <Button asChild className="shrink-0 gap-2 px-7 py-3.5 whitespace-nowrap">
-              <a href={`mailto:${CONTACT.emails.hr}`}>
-                <FiMail size={15} aria-hidden />
-                Enviar Curriculo
-              </a>
-            </Button>
-          </Card>
         </RevealOnScroll>
+
+        <div
+          id="carreiras"
+          className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-16"
+        >
+          <div>
+            <RevealOnScroll>
+              <h2
+                id="equipe-heading"
+                className="mb-6 font-impact leading-tight text-britago-primary uppercase"
+                style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+              >
+                Profissionais que fazem
+                <br />a diferença
+              </h2>
+
+              <p className="mb-4 font-roboto text-base leading-relaxed font-light text-britago-gray">
+                Nossa equipe é formada por profissionais comprometidos, que unem experiência,
+                dedicação e conhecimento técnico para garantir operações seguras, eficientes e
+                produtos de alta qualidade.
+              </p>
+
+              <p className="font-roboto text-base leading-relaxed font-light text-britago-gray">
+                Nossos valores e o atendimento especializado — do pequeno consumidor até empresas de
+                grande porte — são o nosso grande diferencial.{" "}
+                <span className="font-medium text-britago-dark">
+                  Quem conhece, confia e se torna parceiro.
+                </span>
+              </p>
+            </RevealOnScroll>
+
+            <div className="mt-12 border-t border-britago-gray-light pt-12">
+              <CarreirasInfo />
+            </div>
+          </div>
+
+          <CurriculoForm />
+        </div>
       </div>
     </section>
   );

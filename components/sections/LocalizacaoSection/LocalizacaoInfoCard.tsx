@@ -64,10 +64,10 @@ export function LocalizacaoInfoCard() {
               {CONTACT.emails.commercial}
             </a>
             <a
-              href={`mailto:${CONTACT.emails.hr}`}
+              href="#carreiras"
               className="block font-roboto text-sm text-britago-gray transition-colors duration-200 hover:text-britago-primary"
             >
-              {CONTACT.emails.hr}
+              {CONTACT.emails.hr} (currículos)
             </a>
           </div>
         </div>

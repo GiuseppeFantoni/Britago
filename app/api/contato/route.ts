@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
-const CONTATO_DESTINATION_EMAIL = "giuseppefant07@gmail.com";
+const CONTATO_DESTINATION_EMAIL = "comercial@britago.com.br";
 
 interface ContatoPayload {
   nome: string;

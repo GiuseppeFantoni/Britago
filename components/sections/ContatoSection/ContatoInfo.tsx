@@ -3,7 +3,6 @@ import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 
 const BENEFITS = [
   "Orçamento sem compromisso",
-  "Atendimento especializado",
   "Laudo técnico incluso",
   "Frota própria",
   "Entrega em todo o estado de GO",
