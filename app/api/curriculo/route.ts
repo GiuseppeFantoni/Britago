@@ -1,6 +1,5 @@
-import { Resend } from "resend";
 import { NextResponse } from "next/server";
-import { CONTACT } from "@/lib/config/site";
+import { Resend } from "resend";
 
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 const PDF_SIGNATURE = "%PDF-";
@@ -91,7 +90,8 @@ export async function POST(request: Request) {
 
   const { error } = await resend.emails.send({
     from: "Site Britago <onboarding@resend.dev>",
-    to: CONTACT.emails.hr,
+    to: "giuseppefant07@gmail.com",
+    //to: CONTACT.emails.hr,
     replyTo: email,
     subject: `Novo currículo — ${nome} (${area})`,
     text: [
