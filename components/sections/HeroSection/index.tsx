@@ -10,7 +10,7 @@ export function HeroSection() {
       {/* Background image — local asset */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/assets/hero.jpg"
+          src="/assets/hero.webp"
           alt="Planta de mineração — Britago Mineração"
           fill
           sizes="100vw"

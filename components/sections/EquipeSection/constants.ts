@@ -13,12 +13,12 @@ export const CURRICULO_ACCEPTED_MIME_TYPE = "application/pdf";
 export const CURRICULO_BENEFICIOS = [
   {
     icon: "shield",
-    title: "Ambiente seguro",
-    description: "Operação com protocolos rígidos de segurança e treinamento constante.",
+    title: "Time unido",
+    description: "Uma equipe que trabalha junto há anos e cresce cada dia mais forte.",
   },
   {
     icon: "trending",
-    title: "Crescimento interno",
-    description: "27 anos de mercado priorizando promoção e capacitação da própria equipe.",
+    title: "Estrutura sólida",
+    description: "27 anos de mercado com equipamentos modernos e operação consolidada.",
   },
 ] as const;
