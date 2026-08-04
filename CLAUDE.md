@@ -19,7 +19,12 @@ npm run type-check            # tsc --noEmit
 npm run validate               # type-check + lint + format:check (rodar antes de considerar uma tarefa concluída)
 ```
 
-`lint-staged` está configurado no `package.json` mas **não está ativado via git hook** (sem husky — instável no Windows do time). Rode `npx lint-staged` manualmente antes de commitar, ou `npm run validate`.
+Git hooks são gerenciados via [Lefthook](https://lefthook.dev) (não husky — husky foi removido por instabilidade no Windows do time; Lefthook é um binário Go sem scripts shell, evitando o mesmo problema). `npm install` já roda `lefthook install` automaticamente via script `prepare`.
+
+- **pre-commit**: roda `lint-staged` (prettier + eslint --fix nos arquivos staged).
+- **commit-msg**: valida a mensagem via `commitlint` no padrão [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `style:`, `perf:`, `ci:`, `build:`). Commit com mensagem fora do padrão é bloqueado.
+
+Configuração em `lefthook.yml` e `commitlint.config.js`. Há também CI no GitHub Actions (`.github/workflows/ci.yml`) rodando `type-check`, `lint`, `format:check` e `build` em push/PR para `main` — os hooks locais são a primeira barreira, o CI é a garantia final (não pode ser pulado com `--no-verify`).
 
 ## Estrutura de pastas
 

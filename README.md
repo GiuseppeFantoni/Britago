@@ -8,15 +8,18 @@ Site institucional da **Britago Mineração**, empresa fornecedora de agregados 
 
 ## Stack
 
-| Tecnologia                                                                                           | Versão | Papel                        |
-| ---------------------------------------------------------------------------------------------------- | ------ | ---------------------------- |
-| [Next.js](https://nextjs.org)                                                                        | 16     | Framework React (App Router) |
-| [React](https://react.dev)                                                                           | 19     | UI                           |
-| [Tailwind CSS](https://tailwindcss.com)                                                              | v4     | Estilização                  |
-| [TypeScript](https://typescriptlang.org)                                                             | 5      | Tipagem estática             |
-| [Framer Motion](https://www.framer.com/motion/)                                                      | 12     | Animações                    |
-| [React Icons](https://react-icons.github.io/react-icons/)                                            | 5      | Ícones                       |
-| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | —      | Merge de classes utilitário  |
+| Tecnologia                                                                                           | Versão | Papel                                     |
+| ---------------------------------------------------------------------------------------------------- | ------ | ----------------------------------------- |
+| [Next.js](https://nextjs.org)                                                                        | 16     | Framework React (App Router)              |
+| [React](https://react.dev)                                                                           | 19     | UI                                        |
+| [Tailwind CSS](https://tailwindcss.com)                                                              | v4     | Estilização                               |
+| [TypeScript](https://typescriptlang.org)                                                             | 5      | Tipagem estática                          |
+| [Framer Motion](https://www.framer.com/motion/)                                                      | 12     | Animações                                 |
+| [React Icons](https://react-icons.github.io/react-icons/)                                            | 5      | Ícones                                    |
+| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | —      | Merge de classes utilitário               |
+| [TanStack Query](https://tanstack.com/query)                                                         | 5      | Data fetching / mutations (formulários)   |
+| [Resend](https://resend.com)                                                                         | —      | Envio de e-mail (contato e currículo)     |
+| [Radix UI](https://www.radix-ui.com)                                                                 | —      | Primitivos acessíveis (base do shadcn/ui) |
 
 ---
 
@@ -56,11 +59,9 @@ Acesse [http://localhost:3000](http://localhost:3000).
 
 Copie `.env.example` para `.env.local` e preencha os valores:
 
-| Variável                | Obrigatória | Descrição                                          |
-| ----------------------- | ----------- | -------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`  | Sim         | URL pública do site (ex: `https://britago.com.br`) |
-| `NEXT_PUBLIC_GA_ID`     | Não         | ID do Google Analytics 4 (ex: `G-XXXXXXXXXX`)      |
-| `NEXT_PUBLIC_GSC_TOKEN` | Não         | Token de verificação do Google Search Console      |
+| Variável         | Obrigatória | Descrição                                                                                                                                                |
+| ---------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RESEND_API_KEY` | Sim         | Chave da API do [Resend](https://resend.com/api-keys), usada pelos formulários de contato (`app/api/contato`) e envio de currículo (`app/api/curriculo`) |
 
 > **Nunca commite o arquivo `.env.local`** — ele já está no `.gitignore`.
 
@@ -77,8 +78,19 @@ npm run lint:fix     # Corrige erros de ESLint automaticamente
 npm run format       # Formata todos os arquivos com Prettier
 npm run format:check # Verifica formatação sem alterar arquivos (útil em CI)
 npm run type-check   # Verifica tipos com tsc --noEmit
-npm run validate     # type-check + lint + format:check (rodar antes de commitar)
+npm run validate     # type-check + lint + format:check
 ```
+
+---
+
+## Qualidade de código e git hooks
+
+O projeto usa [Lefthook](https://lefthook.dev) para rodar checagens automaticamente no fluxo do git (configurado em `lefthook.yml`, instalado sozinho via `npm install` — script `prepare`):
+
+- **pre-commit** — roda `lint-staged` (Prettier + ESLint `--fix`) só nos arquivos staged.
+- **commit-msg** — valida a mensagem do commit com [commitlint](https://commitlint.js.org) no padrão [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `style:`, `perf:`, `ci:`, `build:`). Commits fora do padrão são bloqueados.
+
+Além dos hooks locais, o CI no GitHub Actions (`.github/workflows/ci.yml`) roda `type-check`, `lint`, `format:check` e `build` em todo push/PR para `main` — é a garantia final, já que hooks locais podem ser pulados com `--no-verify`.
 
 ---
 
@@ -96,7 +108,10 @@ britago/
 │   ├── robots.ts                 # Gera /robots.txt automaticamente
 │   ├── not-found.tsx               # Página 404
 │   ├── error.tsx                     # Boundary de erro global
-│   └── loading.tsx                     # Skeleton de carregamento global
+│   ├── loading.tsx                     # Skeleton de carregamento global
+│   └── api/
+│       ├── contato/route.ts            # Envia e-mail do formulário de contato (Resend)
+│       └── curriculo/route.ts            # Envia e-mail com currículo anexado (Resend)
 │
 ├── components/
 │   ├── layout/
@@ -132,8 +147,10 @@ britago/
 ├── .prettierrc                 # Config do Prettier (+ plugin Tailwind)
 ├── .prettierignore
 ├── eslint.config.mjs           # ESLint com Next.js + Prettier
-├── next.config.ts              # Config do Next.js (imagens, compressão)
-└── tsconfig.json                # TypeScript strict mode
+├── lefthook.yml                 # Git hooks (pre-commit, commit-msg)
+├── commitlint.config.js          # Regras de mensagem de commit (Conventional Commits)
+├── next.config.ts                  # Config do Next.js (imagens, compressão)
+└── tsconfig.json                     # TypeScript strict mode
 ```
 
 ---
@@ -146,9 +163,8 @@ britago/
 2. Importe o repositório do GitHub
 3. **Framework Preset:** Next.js (detectado automaticamente)
 4. **Root Directory:** `estudo` (se o projeto estiver dentro de uma pasta)
-5. Adicione as variáveis de ambiente na aba **Environment Variables**:
-   - `NEXT_PUBLIC_SITE_URL` → `https://britago.com.br`
-   - `NEXT_PUBLIC_GA_ID` → seu ID do GA4 (opcional)
+5. Adicione a variável de ambiente na aba **Environment Variables**:
+   - `RESEND_API_KEY` → sua chave da API do Resend
 6. Clique em **Deploy**
 
 ### Opção 2 — Deploy pela CLI
@@ -181,7 +197,6 @@ Após o primeiro deploy:
 | `CNAME` | `www` | `cname.vercel-dns.com` |
 
 4. Aguarde a propagação DNS (normalmente < 1h)
-5. Atualize a variável `NEXT_PUBLIC_SITE_URL` para `https://britago.com.br` no painel da Vercel e faça um novo deploy
 
 ### Variáveis de ambiente na Vercel
 
