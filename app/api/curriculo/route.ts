@@ -1,3 +1,4 @@
+import { CONTACT } from "@/lib/config/site";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -90,8 +91,7 @@ export async function POST(request: Request) {
 
   const { error } = await resend.emails.send({
     from: "Site Britago <onboarding@resend.dev>",
-    to: "giuseppefant07@gmail.com",
-    //to: CONTACT.emails.hr,
+    to: CONTACT.emails.hr,
     replyTo: email,
     subject: `Novo currículo — ${nome} (${area})`,
     text: [
