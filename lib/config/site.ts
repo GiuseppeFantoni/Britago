@@ -35,4 +35,4 @@ export const CONTACT = {
 export const FOUNDING_YEAR = 1999 as const;
 export const YEARS_IN_MARKET = new Date().getFullYear() - FOUNDING_YEAR;
 
-export const WHATSAPP_PRIMARY = CONTACT.phones.commercial[2].wa;
+export const WHATSAPP_PRIMARY = CONTACT.phones.commercial[0].wa;
