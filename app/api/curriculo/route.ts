@@ -90,7 +90,7 @@ export async function POST(request: Request) {
   const attachmentBuffer = Buffer.from(await arquivo.arrayBuffer());
 
   const { error } = await resend.emails.send({
-    from: "Site Britago <onboarding@resend.dev>",
+    from: "Site Britago <naoresponda@britago.com.br>",
     to: CONTACT.emails.hr,
     replyTo: email,
     subject: `Novo currículo — ${nome} (${area})`,
@@ -109,6 +109,7 @@ export async function POST(request: Request) {
   });
 
   if (error) {
+    console.error("[Resend] Falha ao enviar currículo:", error);
     return NextResponse.json({ error: "Falha ao enviar currículo." }, { status: 502 });
   }
 

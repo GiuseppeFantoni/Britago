@@ -1,7 +1,6 @@
+import { CONTACT } from "@/lib/config/site";
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
-
-const CONTATO_DESTINATION_EMAIL = "comercial@britago.com.br";
 
 interface ContatoPayload {
   nome: string;
@@ -40,8 +39,8 @@ export async function POST(request: Request) {
   const { nome, empresa, telefone, email, mensagem } = body;
 
   const { error } = await resend.emails.send({
-    from: "Site Britago <onboarding@resend.dev>",
-    to: CONTATO_DESTINATION_EMAIL,
+    from: "Site Britago <naoresponda@britago.com.br>",
+    to: CONTACT.emails.commercial,
     replyTo: email,
     subject: `Novo pedido de orçamento — ${nome}`,
     text: [
@@ -56,6 +55,7 @@ export async function POST(request: Request) {
   });
 
   if (error) {
+    console.error("[Resend] Falha ao enviar e-mail de contato:", error);
     return NextResponse.json({ error: "Falha ao enviar e-mail." }, { status: 502 });
   }
 
