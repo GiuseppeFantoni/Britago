@@ -1,6 +1,7 @@
 import { CONTACT } from "@/lib/config/site";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { CONFIRMATION_HTML, CONFIRMATION_SUBJECT, CONFIRMATION_TEXT } from "./confirmationEmail";
 
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 const PDF_SIGNATURE = "%PDF-";
@@ -111,6 +112,21 @@ export async function POST(request: Request) {
   if (error) {
     console.error("[Resend] Falha ao enviar currículo:", error);
     return NextResponse.json({ error: "Falha ao enviar currículo." }, { status: 502 });
+  }
+
+  // Confirmação automática ao candidato. O currículo já chegou ao RH, então uma
+  // falha aqui é só registrada e não invalida o envio.
+  const { error: confirmationError } = await resend.emails.send({
+    from: "Britago <naoresponda@britago.com.br>",
+    to: email,
+    replyTo: CONTACT.emails.hr,
+    subject: CONFIRMATION_SUBJECT,
+    text: CONFIRMATION_TEXT,
+    html: CONFIRMATION_HTML,
+  });
+
+  if (confirmationError) {
+    console.error("[Resend] Falha ao enviar confirmação ao candidato:", confirmationError);
   }
 
   return NextResponse.json({ success: true });
