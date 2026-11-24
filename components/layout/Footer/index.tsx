@@ -5,7 +5,11 @@ import { CONTACT } from "@/lib/config/site";
 
 const SOCIAL = [
   { icon: FaInstagram, label: "Instagram", href: "https://www.instagram.com/britago_/" },
-  { icon: FaLinkedin, label: "LinkedIn", href: "#" },
+  {
+    icon: FaLinkedin,
+    label: "LinkedIn",
+    href: "https://br.linkedin.com/company/britago-minera%C3%A7%C3%A3o-ind.-e-com.-ltda",
+  },
 ];
 
 export function Footer() {
